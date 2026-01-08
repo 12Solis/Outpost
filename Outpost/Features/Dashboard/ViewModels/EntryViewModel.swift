@@ -30,8 +30,13 @@ class EntryViewModel{
         }
     }
     
-    func sumbit(context: ModelContext, session: SessionManager){
-        guard !bibInput.isEmpty, let race = session.activeRace, let cp = session.currentCheckpoint else { return }
+    func submit(context: ModelContext, session: SessionManager, syncManager: SyncManager?){
+        guard !bibInput.isEmpty, let race = session.activeRace, let cp = session.currentCheckpoint else {
+            print("Submission Failed: Missing data (Race: \(session.activeRace?.name ?? "Nil"), CP: \(session.currentCheckpoint?.name ?? "Nil"))")
+            return
+        }
+        
+        print("Submitting Bib: \(bibInput)...")
         
         let bib = bibInput
         
@@ -43,15 +48,30 @@ class EntryViewModel{
         
         let runner: Runner
         if let existing = try? context.fetch(descriptor).first {
+            print("   Found existing runner")
             runner = existing
         } else {
+            print("   Creating new runner")
             runner = Runner(bibNumber: bib, race: race)
             context.insert(runner)
         }
         
+        syncManager?.broadcastRunnerUpdate(runner)
+        
         //MARK: Create Event
+        
         let event = StatusEvent(type: selectedMode, runner: runner, checkpointId: cp.id)
         context.insert(event)
+        
+
+        do {
+            try context.save()
+            print("Event Saved Successfully!")
+        } catch {
+            print("CORE DATA SAVE ERROR: \(error)")
+        }
+        
+        syncManager?.broadcastEvent(event)
         
         //MARK: Results and Reset
         lastActionMessage = "Bib #\(bib) \(selectedMode == .arrival ? "Arrived" : "Departed")"
@@ -64,8 +84,7 @@ class EntryViewModel{
             }
         }
         
-    }
-    
+    }    
     
     
 }

@@ -11,6 +11,7 @@ import TipKit
 
 struct CheckpointSelectionView: View {
     @Environment(SessionManager.self) var sessionManager
+    @Environment(\.syncManager) var syncManager
     
     @State private var showLiveTracking = false
     @State private var navigateToDashboard = false
@@ -46,6 +47,7 @@ struct CheckpointSelectionView: View {
                     ForEach(sortedCheckpoints){ cp in
                         
                         Button{
+                            sessionManager.selectRace(race)
                             sessionManager.selectCheckpoint(cp)
                             
                             navigateToDashboard = true
@@ -95,11 +97,16 @@ struct CheckpointSelectionView: View {
             }
         }
         .navigationTitle(race.name)
+        .toolbar{
+            ToolbarItem(placement: .topBarTrailing){
+                ConnectionStatusView(session: sessionManager, activeRace: race)
+            }
+        }
         .sheet(isPresented: $showLiveTracking){
             LiveTrackingView()
         }
         .navigationDestination(isPresented: $navigateToDashboard){
-            DashboardView(race: race)
+            DashboardView(sessionManager: sessionManager,race: race)
         }
         
         
@@ -109,4 +116,5 @@ struct CheckpointSelectionView: View {
 #Preview {
     CheckpointSelectionView(race: Race(name: "Test", raceType: .backyard, startDate: Date()))
         .environment(SessionManager())
+        .environment(MultipeerService())
 }

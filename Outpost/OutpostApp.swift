@@ -11,37 +11,21 @@ import TipKit
 
 @main
 struct OutpostApp: App {
-    @State private var sessionManager = SessionManager()
-    @State private var multipeerService = MultipeerService()
     
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Race.self,
-            Checkpoint.self,
-            Runner.self,
-            StatusEvent.self
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-        
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
-    
+    @StateObject private var deps = AppDependencies()
     
     var body: some Scene {
         WindowGroup {
             RaceSelectionView()
-                .environment(sessionManager)
-                .environment(multipeerService)
+                .environment(deps.sessionManager)
+                .environment(deps.multipeerService)
+                .environment(\.syncManager, deps.syncManager)
                 .task {
                     try? Tips.configure([
                         .datastoreLocation(.applicationDefault)
                     ])
                 }
         }
-        .modelContainer(sharedModelContainer)
+        .modelContainer(deps.container)
     }
 }

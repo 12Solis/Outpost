@@ -10,20 +10,23 @@ import SwiftData
 import SwiftUI
 
 @Observable
-class SessionManager{
+class SessionManager {
     var activeRace: Race?
     var currentCheckpoint: Checkpoint?
     
-    func selectRace(_ race: Race){
+    var syncManager: SyncManager?
+    
+    func selectRace(_ race: Race) {
         self.activeRace = race
-        self._currentCheckpoint = nil
+        self.currentCheckpoint = nil
     }
     
-    func selectCheckpoint(_ checkpoint: Checkpoint){
+    func selectCheckpoint(_ checkpoint: Checkpoint) {
         self.currentCheckpoint = checkpoint
+        print("Device configured for: \(checkpoint.name)")
     }
     
-    func clearSession(){
+    func clearSession() {
         self.activeRace = nil
         self.currentCheckpoint = nil
     }

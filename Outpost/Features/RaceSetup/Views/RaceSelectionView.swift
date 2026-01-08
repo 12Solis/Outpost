@@ -8,8 +8,10 @@
 import SwiftUI
 import SwiftData
 
+
 struct RaceSelectionView: View {
     @Environment(\.modelContext) var context
+    @Environment(SessionManager.self) var sessionManager
     
     @Query(sort: \Race.startDate, order: .reverse) var races: [Race]
     
@@ -47,11 +49,17 @@ struct RaceSelectionView: View {
             }
             .navigationTitle("Outpost")
             .toolbar{
-                Button{
-                    showSetup = true
-                }label:{
-                    Image(systemName:"plus")
+                ToolbarItem(placement: .topBarTrailing) {
+                    ConnectionStatusView(session: sessionManager)
                 }
+                ToolbarItem(placement: .topBarTrailing){
+                    Button{
+                        showSetup = true
+                    }label:{
+                        Image(systemName:"plus")
+                    }
+                }
+                
             }
             .sheet(isPresented: $showSetup){
                 RaceSetupMainView()
@@ -70,4 +78,7 @@ struct RaceSelectionView: View {
 
 #Preview {
     RaceSelectionView()
+        .modelContainer(for: [Race.self, Checkpoint.self], inMemory: true)
+        .environment(SessionManager())
+        .environmentObject(MultipeerService())
 }

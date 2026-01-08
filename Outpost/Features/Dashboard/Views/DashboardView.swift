@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct DashboardView: View {
-    @Environment(SessionManager.self) var sessionManager
+    //@Environment(SessionManager.self) var sessionManager
     
+    var sessionManager : SessionManager
     let race: Race
     
     var body: some View {
@@ -17,7 +18,7 @@ struct DashboardView: View {
             if race.raceType == .backyard {
                 Text("")
             } else{
-                StandardDashboardView(race: race)
+                StandardDashboardView(sessionManager: sessionManager,race: race)
             }
         }
         .navigationTitle(race.name)
@@ -41,6 +42,5 @@ struct DashboardView: View {
 }
 
 #Preview {
-    DashboardView(race: Race(name: "Test Race", raceType: .standard, startDate: Date()))
-        .environment(SessionManager())
+    DashboardView(sessionManager: SessionManager(), race: Race(name: "Test Race", raceType: .standard, startDate: Date()))
 }

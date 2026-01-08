@@ -10,8 +10,10 @@ import SwiftData
 
 struct StandardDashboardView: View {
     @Environment(\.modelContext) var context
-    @Environment(SessionManager.self) var sessionManager
+   // @Environment(SessionManager.self) var sessionManager
     
+    
+    var sessionManager: SessionManager
     
     let race: Race
     
@@ -145,6 +147,6 @@ struct StandardDashboardView: View {
 }
 
 #Preview {
-    StandardDashboardView(race: Race(name: "Test Race", raceType: .standard, startDate: Date()))
+    StandardDashboardView(sessionManager: SessionManager(),race: Race(name: "Test Race", raceType: .standard, startDate: Date()))
         .environment(SessionManager())
 }

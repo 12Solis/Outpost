@@ -11,6 +11,7 @@ import SwiftData
 struct ManualEntryView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var context
+    @Environment(\.syncManager) var syncManager
     @Environment(SessionManager.self) var sessionManager
     
     @State private var viewModel = EntryViewModel()
@@ -80,10 +81,21 @@ struct ManualEntryView: View {
                     }
                     
                     Button {
+                        print("Button Tapped")
+                        
                         let generator = UINotificationFeedbackGenerator()
                         generator.notificationOccurred(.success)
+                        
                         withAnimation {
-                            viewModel.sumbit(context: context, session: sessionManager)
+                            print("Context: \(context)")
+                            print(" Session Checkpoint: \(sessionManager.currentCheckpoint?.name ?? "NIL")")
+                            print(" SyncManager: \(syncManager == nil ? "NIL" : "OK")")
+                            
+                            viewModel.submit(
+                                context: context,
+                                session: sessionManager,
+                                syncManager: sessionManager.syncManager
+                            )
                         }
                     } label: {
                         Image(systemName: "checkmark")

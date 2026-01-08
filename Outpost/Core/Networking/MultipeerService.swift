@@ -8,9 +8,10 @@
 import Foundation
 import MultipeerConnectivity
 import SwiftUI
+import Combine
 
 @Observable
-class MultipeerService: NSObject{
+class MultipeerService: NSObject, ObservableObject {
     
     var securityCode: String = "1234" // Make user input
     
@@ -140,3 +141,4 @@ extension MultipeerService: MCNearbyServiceBrowserDelegate{
         print("Lost peer: \(peerID.displayName)")
     }
 }
+

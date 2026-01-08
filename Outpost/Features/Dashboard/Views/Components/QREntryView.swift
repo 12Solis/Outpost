@@ -11,6 +11,7 @@ struct QREntryView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) var context
     @Environment(SessionManager.self) var sessionManager
+    @Environment(\.syncManager) var syncManager
     
     @State private var scannerViewModel = EntryViewModel()
     
@@ -46,7 +47,11 @@ struct QREntryView: View {
                 
                 scannerViewModel.bibInput = scannedCode
                 
-                scannerViewModel.sumbit(context: context, session: sessionManager)
+                scannerViewModel.submit(
+                    context: context,
+                    session: sessionManager,
+                    syncManager: sessionManager.syncManager
+                )
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .edgesIgnoringSafeArea(.bottom)
