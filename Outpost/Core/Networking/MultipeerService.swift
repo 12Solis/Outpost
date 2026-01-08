@@ -16,6 +16,7 @@ class MultipeerService: NSObject, ObservableObject {
     var securityCode: String = "1234" // Make user input
     
     var onDataReceived: ((Data, MCPeerID) -> Void)?
+    var onPeerConnected: ((MCPeerID) -> Void)?
     
     //MARK: Properties
     private let serviceType = "outpost-p2p"
@@ -78,6 +79,7 @@ extension MultipeerService: MCSessionDelegate{
                 print("Connected to: \(peerID.displayName)")
                 if !self.connectedPeers.contains(peerID) {
                     self.connectedPeers.append(peerID)
+                    self.onPeerConnected?(peerID)
                 }
             case .notConnected:
                 print("Disconnected from: \(peerID.displayName)")

@@ -24,6 +24,11 @@ class SyncManager: Observable, ObservableObject {
                 self?.handleData(data, from: peer)
             }
         }
+        
+        self.service.onPeerConnected = { [weak self] peer in
+            print("Peer \(peer.displayName) joined. Starting Backfill...")
+            self?.syncHistory()
+        }
     }
     
     //MARK: Send Data
@@ -86,6 +91,32 @@ class SyncManager: Observable, ObservableObject {
         }catch {
             print("Failed to encode packet: \(error)")
         }
+    }
+    
+    //MARK: History
+    func syncHistory(){
+        let descriptor = FetchDescriptor<StatusEvent>(sortBy: [SortDescriptor(\.timestamp)])
+        
+        guard let allEvents = try? context.fetch(descriptor) else {
+            print("Backfill failed: Could not fetch events")
+            return
+        }
+        
+        print("Backfilling \(allEvents.count) events")
+        
+        let runnerDescriptor = FetchDescriptor<Runner>()
+        if let allRunners = try? context.fetch(runnerDescriptor) {
+            for runner in allRunners {
+                broadcastRunnerUpdate(runner)
+            }
+        }
+        
+        for event in allEvents {
+            broadcastEvent(event)
+        }
+        
+        print("Backfill complete")
+        
     }
     
     //MARK: Reciving Data
