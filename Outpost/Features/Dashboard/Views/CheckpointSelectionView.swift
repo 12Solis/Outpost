@@ -112,7 +112,7 @@ struct CheckpointSelectionView: View {
             LiveTrackingView()
         }
         .navigationDestination(isPresented: $navigateToDashboard){
-            DashboardView(sessionManager: sessionManager,race: race)
+            StandardDashboardView(sessionManager: sessionManager,race: race)
         }
         
         
