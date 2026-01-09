@@ -29,4 +29,5 @@ enum EventType: String, Codable {
     case arrival
     case departure
     case scan
+    case dnf
 }

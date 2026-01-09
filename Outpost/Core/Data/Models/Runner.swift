@@ -10,7 +10,7 @@ import SwiftUI
 import SwiftData
 
 @Model
-final class Runner {
+final class Runner: Identifiable {
     @Attribute(.unique) var id : UUID
     var bibNumber: String
     var name: String?

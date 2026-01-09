@@ -16,7 +16,7 @@ struct DashboardView: View {
     var body: some View {
         Group{
             if race.raceType == .backyard {
-                Text("")
+                BackyardDashboardView(race: race)
             } else{
                 StandardDashboardView(sessionManager: sessionManager,race: race)
             }

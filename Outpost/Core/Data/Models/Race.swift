@@ -16,6 +16,8 @@ final class Race {
     var startDate : Date
     var warningPace: Double
     var criticalPace: Double
+    var endTime: Date?
+    var status: RaceStatus = RaceStatus.scheduled
     
     
     @Relationship(deleteRule: .cascade) var checkpoints : [Checkpoint] = []
@@ -28,6 +30,8 @@ final class Race {
         self.startDate = startDate
         self.warningPace = warningPace
         self.criticalPace = criticalPace
+        self.endTime = nil
+        self.status = .scheduled
     }
 }
 
@@ -40,4 +44,10 @@ enum RaceType: String, Codable, CaseIterable {
         case .stage: "Stage Race"
         }
     }
+}
+
+enum RaceStatus: String, Codable {
+    case scheduled
+    case active
+    case finished
 }

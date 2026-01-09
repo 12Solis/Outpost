@@ -30,7 +30,11 @@ struct RaceSelectionView: View {
                     ForEach(races, id: \.self) { race in
                         
                         NavigationLink{
-                           CheckpointSelectionView(race: race)
+                            if race.raceType == .backyard {
+                                BackyardDashboardView(race: race)
+                            } else {
+                                CheckpointSelectionView(race: race)
+                            }
                         }label:{
                             VStack(alignment: .leading) {
                                 Text(race.name).font(.headline)
