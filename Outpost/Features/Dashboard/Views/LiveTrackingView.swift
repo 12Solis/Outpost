@@ -18,6 +18,10 @@ struct LiveTrackingView: View {
     @State private var searchText = ""
     @State private var filter: TrackingFilter = .all
     
+    @State private var isExporting = false
+    @State private var exportURL: URL?
+    @State private var showShareSheet = false
+    
     enum TrackingFilter: String, CaseIterable {
         case all = "All"
         case onTrail = "On Trail"
@@ -63,18 +67,66 @@ struct LiveTrackingView: View {
             }
             .navigationTitle("Live Tracking")
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Close") { dismiss() }
+                
+                ToolbarItem(placement: .topBarLeading){
+                    HStack{
+                        Button("Close") { dismiss() }
+                        
+                    }
+                }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        exportData()
+                    } label: {
+                        if isExporting {
+                            ProgressView()
+                        } else {
+                            Image(systemName: "square.and.arrow.up")
+                        }
+                    }
+                    .disabled(isExporting)
+                }
+                
+            }
+            
+            .sheet(isPresented: $showShareSheet) {
+                if let url = exportURL {
+                    ShareSheet(items: [url])
+                        .presentationDetents([.medium, .large])
                 }
             }
+            
         }
+        
+        
         .onAppear{
             Task{await  LiveTrackTip.liveTrackViewVisitedEvent.donate()}
         }
         
         
     }
+    
+    private func exportData() {
+        guard let race = sessionManager.activeRace else { return }
+        
+        isExporting = true
+ 
+        Task {
+            try? await Task.sleep(nanoseconds: 500_000_000)
+
+            if let url = CSVExporter.generateCSV(for: race) {
+                self.exportURL = url
+                self.showShareSheet = true
+            }
+            
+            self.isExporting = false
+        }
+    }
 }
+
+
+
 
 
 struct RunnerRow: View {

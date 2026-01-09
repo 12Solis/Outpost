@@ -97,6 +97,12 @@ struct CheckpointSelectionView: View {
             }
         }
         .navigationTitle(race.name)
+        .onAppear {
+            if sessionManager.activeRace == nil {
+                sessionManager.selectRace(race)
+            }
+        }
+        
         .toolbar{
             ToolbarItem(placement: .topBarTrailing){
                 ConnectionStatusView(session: sessionManager, activeRace: race)
