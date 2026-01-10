@@ -17,6 +17,9 @@ struct RaceSelectionView: View {
     
     @State private var showSetup = false
     
+    @State private var showSettings = false
+    @AppStorage("UserNickname") private var userNickname: String = "Unknown"
+    
     var body: some View {
         NavigationStack{
             List{
@@ -64,9 +67,20 @@ struct RaceSelectionView: View {
                     }
                 }
                 
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        showSettings = true
+                    } label: {
+                        Image(systemName: "gear")
+                    }
+                }
+                
             }
             .sheet(isPresented: $showSetup){
                 RaceSetupMainView()
+            }
+            .sheet(isPresented: $showSettings){
+                SettingsView(userNickname: $userNickname, showSettings: $showSettings)
             }
             
         }
@@ -76,6 +90,37 @@ struct RaceSelectionView: View {
     private func deleteRace(at offsets: IndexSet) {
         for index in offsets {
             context.delete(races[index])
+        }
+    }
+}
+
+struct SettingsView: View {
+    @Binding var userNickname: String
+    @Binding var showSettings: Bool
+    
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section("Device Identity") {
+                    TextField("Nickname", text: $userNickname)
+                    Text("Restart app to apply name changes to the network.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                
+                Section("About") {
+                    HStack {
+                        Text("Version")
+                        Spacer()
+                        Text("1.0.0 (MVP)")
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
+            .navigationTitle("Settings")
+            .toolbar {
+                Button("Done") { showSettings = false }
+            }
         }
     }
 }

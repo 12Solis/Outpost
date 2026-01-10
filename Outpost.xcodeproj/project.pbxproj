@@ -270,8 +270,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Outpost/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Outpost needs camera access to scan runner bibs.";
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Checkpoint needs to find other devices to sync timing data";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Used to sync race data with other devices nearby.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -309,8 +310,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Outpost/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Outpost needs camera access to scan runner bibs.";
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Checkpoint needs to find other devices to sync timing data";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Used to sync race data with other devices nearby.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

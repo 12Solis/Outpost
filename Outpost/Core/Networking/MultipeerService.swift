@@ -31,6 +31,9 @@ class MultipeerService: NSObject, ObservableObject {
     var isBrwosing = false
     
     override init() {
+        let savedName = UserDefaults.standard.string(forKey: "UserNickname")
+        _ = savedName ?? UIDevice.current.name
+        
         self.session = MCSession(peer: myPeerId, securityIdentity: nil, encryptionPreference: .required)
         self.serviceAdvertiser = MCNearbyServiceAdvertiser(peer: myPeerId, discoveryInfo: nil, serviceType: serviceType)
         self.serviceBrowser = MCNearbyServiceBrowser(peer: myPeerId, serviceType: serviceType)
