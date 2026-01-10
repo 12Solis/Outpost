@@ -27,7 +27,7 @@ struct BackyardLogic {
         }
         
         let elapsed = now.timeIntervalSince(race.startDate)
-        let hourInSeconds: Double = 60 // 60 test
+        let hourInSeconds: Double = 3600
         
         let completedHours = Int(elapsed / hourInSeconds)
         let currentLap = completedHours + 1
