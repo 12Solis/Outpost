@@ -41,13 +41,6 @@ The app manages the complex state of a Backyard Ultra using a custom `BackyardLo
 * Countdown to the next bell.
 * Automatic DNF status for runners who fail to check in before the hour transition.
 
-##  Installation
-
-1.  Clone the repository.
-2.  Open `Outpost.xcodeproj` in Xcode 16+.
-3.  Change the Development Team to your own.
-4.  Build and run on two physical devices (Simulator does not support Camera).
-5.  Accept Local Network permissions to enable mesh discovery.
 
 ---
 *Created by [Leonardo Solis] - 2026*
