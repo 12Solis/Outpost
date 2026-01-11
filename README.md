@@ -3,9 +3,9 @@
 **Outpost** is a professional-grade iOS application designed for timing remote trail races and Backyard Ultras. It utilizes a peer-to-peer mesh network to sync race data between checkpoints without requiring an internet connection.
 
 <p align="center">
-  <img src="Simulator Screenshot - iPhone Air - 2026-01-10 at 03.08.38.png" width="200" />
-  <img src="Simulator Screenshot - iPhone Air - 2026-01-10 at 03.11.51.png" width="200" />
-  <img src="Simulator Screenshot - iPhone Air - 2026-01-10 at 03.19.07.png" width="200" />
+  <img src="assets/Simulator Screenshot - iPhone Air - 2026-01-10 at 03.08.38.png" width="200" />
+  <img src="assets/Simulator Screenshot - iPhone Air - 2026-01-10 at 03.11.51.png" width="200" />
+  <img src="assets/Simulator Screenshot - iPhone Air - 2026-01-10 at 03.19.07.png" width="200" />
 </p>
 
 ##  Key Features
