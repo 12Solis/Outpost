@@ -15,20 +15,31 @@ struct  standardEditor: View {
             ForEach($viewModel.checkpoints) { $cp in
                 HStack {
                     // Icon
-                    Menu {
-                        Picker("Type", selection: $cp.type) {
-                            ForEach(CheckpointType.allCases) { type in
-                                Label(type.displayName, systemImage: type.icon).tag(type)
-                                    .selectionDisabled(type.displayName == "Finish Line" || type.displayName == "Start Line")
-                            }
-                        }
-                        .onChange(of: cp.type) {
-                            Task{await changeIconTip.iconChangedEvent.donate()}
-                        }
-                    } label: {
+                    if cp.type == .start {
                         Image(systemName: cp.type.icon)
                             .foregroundStyle(Color(cp.type.color))
                             .frame(width: 24)
+                    } else if cp.type == .finish {
+                        Image(systemName: cp.type.icon)
+                            .foregroundStyle(Color(cp.type.color))
+                            .frame(width: 24)
+                    }else {
+                        
+                        Menu {
+                            Picker("Type", selection: $cp.type) {
+                                ForEach(CheckpointType.allCases) { type in
+                                    Label(type.displayName, systemImage: type.icon).tag(type)
+                                        .selectionDisabled(type.displayName == "Finish Line" || type.displayName == "Start Line")
+                                }
+                            }
+                            .onChange(of: cp.type) {
+                                Task{await changeIconTip.iconChangedEvent.donate()}
+                            }
+                        } label: {
+                            Image(systemName: cp.type.icon)
+                                .foregroundStyle(Color(cp.type.color))
+                                .frame(width: 24)
+                        }
                     }
                     
                     // Fields

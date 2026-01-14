@@ -32,40 +32,42 @@ struct RaceSetupMainView: View {
                         }
                         
                         //Date
-                        DatePicker("Date", selection: $viewModel.startDate, displayedComponents: .date)
+                        DatePicker("Date", selection: $viewModel.startDate, in: Date.now..., displayedComponents: .date)
                         
                     }
-
-                    Section("Safety Alerts") {
-                        VStack(alignment: .leading) {
-                            HStack {
-                                Text("Warning Pace")
-                                Spacer()
-                                Text("\(Int(viewModel.warningPace)) min/km")
-                                    .foregroundStyle(.orange)
-                                    .fontWeight(.bold)
-                            }
-                            Stepper("Adjustment", value: $viewModel.warningPace, in: 5...60, step: 1)
-                                .labelsHidden()
-                            Text("Runners slower than this will be marked yellow.")
-                                .font(.caption).foregroundStyle(.secondary)
-                        }
-                        .padding(.vertical, 2)
+                    if viewModel.selectedType == .standard || viewModel.selectedType == .stage {
                         
-                        VStack(alignment: .leading) {
-                            HStack {
-                                Text("Critical Pace")
-                                Spacer()
-                                Text("\(Int(viewModel.criticalPace)) min/km")
-                                    .foregroundStyle(.red)
-                                    .fontWeight(.bold)
+                        Section("Safety Alerts") {
+                            VStack(alignment: .leading) {
+                                HStack {
+                                    Text("Warning Pace")
+                                    Spacer()
+                                    Text("\(Int(viewModel.warningPace)) min/km")
+                                        .foregroundStyle(.orange)
+                                        .fontWeight(.bold)
+                                }
+                                Stepper("Adjustment", value: $viewModel.warningPace, in: 5...60, step: 1)
+                                    .labelsHidden()
+                                Text("Runners slower than this will be marked yellow.")
+                                    .font(.caption).foregroundStyle(.secondary)
                             }
-                            Stepper("Adjustment", value: $viewModel.criticalPace, in: 10...120, step: 1)
-                                .labelsHidden()
-                            Text("Runners slower than this will be marked red.")
-                                .font(.caption).foregroundStyle(.secondary)
+                            .padding(.vertical, 2)
+                            
+                            VStack(alignment: .leading) {
+                                HStack {
+                                    Text("Critical Pace")
+                                    Spacer()
+                                    Text("\(Int(viewModel.criticalPace)) min/km")
+                                        .foregroundStyle(.red)
+                                        .fontWeight(.bold)
+                                }
+                                Stepper("Adjustment", value: $viewModel.criticalPace, in: 10...120, step: 1)
+                                    .labelsHidden()
+                                Text("Runners slower than this will be marked red.")
+                                    .font(.caption).foregroundStyle(.secondary)
+                            }
+                            .padding(.vertical, 2)
                         }
-                        .padding(.vertical, 2)
                     }
                     
                     Section("Course Setup"){
